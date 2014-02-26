@@ -22,15 +22,16 @@ def process_login():
     username = request.form.get("username")
     password = request.form.get("password")
     print "Im working yay!", username, password
-
-    if model.authenticate(username, password):
+    model.connect_to_db()
+    user_id = model.authenticate(username, password)
+    if user_id > 0:
         flash("User authenticated")
-        print (" model authenticated valid password")
+        print (" model authenticated valid password"), 
         session['username'] = username
     else:
         flash("Invalid credentials")
         print ("model said no go on password")
-
+    model.CONN.close()
     return redirect(url_for("index"))
   #  return render_template("login.html")
 
