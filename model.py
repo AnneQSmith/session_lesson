@@ -15,6 +15,7 @@ def connect_to_db():
 # ADMIN_PASSWORD=5980025637247534551
 #The README lied about the above.   The answer is not, in fact, 42.
 
+#let the database match for us. If the pair matches then return ID else return (ID number)-1 (False)
 def authenticate(username, password):
     query = """SELECT id FROM Users WHERE username = ? AND password = ?"""
     DB.execute(query, (username, password))
@@ -24,11 +25,26 @@ def authenticate(username, password):
         return row[0]
     else:
         return -1
-    #get connection code
-    #build the query
-    #open a database connection
-    # return True or False if its in the DB with coorect password
-    # if true render a landing page
-    # if false light the user on fire with an error! 
-    #   and redirect to login page
 
+def create_new_account(username, password):
+    print "Create account with user, pwd",username, password
+    query = """INSERT INTO Users (username, password) VALUES (?, ?)"""
+    DB.execute(query, (username, password))
+    CONN.commit()
+#TODO check for failure before blinding returning true. 
+    return True 
+ 
+
+def user_exists(username):
+    print "We made it to the user existence checker with user name ", username
+
+    query = """SELECT id FROM Users WHERE username = ?"""
+    DB.execute(query, (username,))
+    row = DB.fetchone()
+
+    print dir(row)
+
+    if row:
+        return True
+    else:
+        return False
