@@ -20,8 +20,7 @@ def authenticate(username, password):
     DB.execute(query, (username, password))
     row = DB.fetchone()
 # If a row matches 
-    if row:
-        print row,id, row[0]        
+    if row:       
         return row[0]
     else:
         return -1
