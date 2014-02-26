@@ -19,10 +19,10 @@ def authenticate(username, password):
     query = """SELECT id FROM Users WHERE username = ? AND password = ?"""
     DB.execute(query, (username, password))
     row = DB.fetchone()
-    print row
+# If a row matches 
     if row:
- # If a row matches        
-        return id
+        print row,id, row[0]        
+        return row[0]
     else:
         return -1
     #get connection code
