@@ -6,7 +6,16 @@ app.secret_key = "shhhhthisisasecret"
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if session.get("username"):
+        print "User %s is logged in!!!!!! YAY!" %session["username"]
+        return redirect(url_for("loggedin"))
+    else:
+        return render_template("index.html")
+
+@app.route("/loggedin")
+def loggedin():
+    session.clear()
+    return redirect(url_for("index"))
 
 @app.route("/", methods=["POST"])
 def process_login():
@@ -17,6 +26,7 @@ def process_login():
     if model.authenticate(username, password):
         flash("User authenticated")
         print (" model authenticated valid password")
+        session['username'] = username
     else:
         flash("Invalid credentials")
         print ("model said no go on password")
