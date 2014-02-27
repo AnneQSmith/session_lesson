@@ -1,0 +1,15 @@
+{% extends 'master.html' %}
+{% block body %}
+    <form class="signin" method="POST" action="/user">
+        <h2 class="signin-heading"> Welcome to your wall, {{username}} </h2>
+        <!--         <ul>
+            {% for message in get_user_messages() %}
+                <li> {{ message[0] }} {{ message[1] }} {{ message[2] }}</li>
+            {% endfor %}
+        </ul> -->
+
+        <input type="text" class="form-control" placeholder="wall_msg" name="wall_msg">
+
+        <input type="submit" class="btn btn-lg btn-primary btn-block" value="Post">
+    </form>
+{% endblock %}

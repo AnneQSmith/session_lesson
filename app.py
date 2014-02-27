@@ -8,7 +8,6 @@ app.secret_key = "shhhhthisisasecret"
 def index():
     if session.get("username"):
         print "User %s is logged in!!!!!! YAY!" %session["username"]
-        return redirect(url_for("logged_out"))
     else:
         return render_template("index.html")
 
@@ -25,15 +24,24 @@ def process_login():
     user_id = model.authenticate(username, password)
     if user_id > 0:
         flash("User authenticated")
-        print (" model authenticated valid password"), 
         session['user_id'] = user_id
-        print session
+        return redirect(url_for("view_user", username= username))
     else:
         flash("Invalid credentials")
         print ("model said no go on password")
     model.CONN.close()
     return redirect(url_for("index"))
-  #  return render_template("login.html")
+
+@app.route("/user/<username>")
+def view_user(username):
+    #check that the user is logged in with the get_user_by_name func
+    print session['user_id']
+    return render_template("wall.html")
+
+@app.route("/user/<username>", methods=["POST"])
+def post_to_wall():
+    #redirect to the view_user url
+    pass
 
 @app.route("/register")
 def register():
